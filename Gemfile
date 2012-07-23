@@ -15,6 +15,12 @@ source "http://rubygems.org"
   gem "sass"
   gem "json"
 
+group :development do
+  gem "guard"
+  gem 'guard-livereload'
+  gem 'rack-livereload'
+end
+  
 group :test do
   gem "rspec"
   gem "cucumber"

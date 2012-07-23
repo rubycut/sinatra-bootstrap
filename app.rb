@@ -15,6 +15,8 @@ class ExampleApp < Sinatra::Base
   # play nice with angular, this works: %body(ng-app=true)
   set :haml, :format => :html4
   set :static,true
+  require 'rack-livereload'
+  use Rack::LiveReload, :min_delay => 500
   configure :development do
     register Sinatra::Reloader
     also_reload "lib/*.rb"
