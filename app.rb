@@ -12,6 +12,8 @@ class ExampleApp < Sinatra::Base
   set :dump_errors, false
   # very important, PUT doesn't work without this
   enable :method_override
+  # play nice with angular, this works: %body(ng-app=true)
+  set :haml, :format => :html4
   set :static,true
   configure :development do
     register Sinatra::Reloader
