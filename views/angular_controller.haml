@@ -1,0 +1,34 @@
+:javascript
+  // First argument must be app Name
+  angular.module('BookApp', ['ngResource']).factory('Books', function ($resource) {
+    return $resource('/api/books')
+  });
+
+  
+  function MainController($scope,Books) {
+  $scope.books = Books.query();
+    // https://groups.google.com/forum/#!msg/angular/guzTpRuwkt0/mfQkDHZ79wgJ
+    /*$scope.$watch("books",function(newValue,oldValue) {
+      alert("Changed");
+    },true); */
+  }  
+  function BookController($scope) {
+    $scope.yea = function() {      
+      $scope.book.$save();
+    }
+    /*    $scope.$watch("book",function(newValue,oldValue) {
+    alert("Changed");
+    },true); */
+  }
+  
+
+  
+%div(ng-app="BookApp")
+  %p Hello {{ "Angular is live" }}
+  %div(ng-controller="MainController")
+    %ul
+      %li(ng-repeat="book in books" ng-controller="BookController")
+        {{book.name}}
+        %input(ng-model="book.name")
+        %button(ng-click="yea()") Save
+        %button.details Show details

@@ -3,6 +3,6 @@
 
 guard 'livereload' do
   watch(%r{views/[a-zA-Z].+\.(erb|haml|slim)$})
-  watch(%r{app/helpers/.+\.rb})
+  watch(%r{app\.rb})
   watch(%r{public/.+\.(css|js|html)})
 end

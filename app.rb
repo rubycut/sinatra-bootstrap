@@ -37,4 +37,13 @@ class ExampleApp < Sinatra::Base
   get "/" do
     haml :index
   end
+
+  
+  get "/angular_controller" do
+    haml :angular_controller
+  end
+  get "/api/books" do
+    content_type :json 
+  '[{"name": "Bhagavad-gita"},{"name": "Srimad Bhagavatam"}]'
+  end
 end
