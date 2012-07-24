@@ -1,0 +1,56 @@
+%script{:src=>"/js/services/book.js"}
+%script{:src=>"/js/jquery.dataTables.js"}
+:javascript
+  angular.module('BookApp', ['ngResource']).factory('Books', function ($resource) {
+    return $resource('/api/books')
+  });
+  function BookController($scope, Books) {
+    $scope.books = Books.query();
+    $scope.greeting = "Hello";
+  }
+  function MainController($scope,$compile) {
+   $scope.greeting = "Wrong greeting because of wrong scope";
+   $scope.openDetails = function(row) {
+     // load data but this should be separate scope for each detail
+     var table = $("table#my").dataTable();
+     table.fnOpen( row, "<div ng-include=\"'tpl2.html'\">{{'Angular live'}} haha</div>", 'details' );
+     var container_element = $(".details");
+     // need to put proper scope here:                  vvvvvv
+     var clone = $compile(container_element.contents())($scope,function(clone) {
+       container_element.html('').append(clone);	      
+     });
+     $scope.$apply();							  
+
+   }
+  }  
+  $(document).ready(function() {
+      $(document).on("click", "td a", function(){
+          var scope = angular.element($("#cont")).scope();
+          var row = this.parentElement.parentElement;
+          scope.openDetails(row)
+      });
+    $("table#my").dataTable();
+  });
+
+  
+%div(ng-app="BookApp")
+  %div#cont(ng-controller="MainController")
+    %script{:type => "text/ng-template",:id=> "tpl2.html"}
+      %div{"ng-controller"=>"BookController"}
+        Nice little {{ "Live" }} template, controllers says: {{ greeting }} and book is: {{ books[0].name }}
+    %table#my
+      %thead
+        %th Col1
+        %th col2
+        %th col1
+      %tbody
+        %tr
+          %td
+            %a Open
+          %td 1
+          %td 2
+        %tr
+          %td
+            %a Open
+          %td 3
+          %td 4

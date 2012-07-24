@@ -1,10 +1,5 @@
-:javascript
-  // First argument must be app Name
-  angular.module('BookApp', ['ngResource']).factory('Books', function ($resource) {
-    return $resource('/api/books')
-  });
-
-  
+%script{:src=>"/js/services/book.js"}
+:javascript 
   function MainController($scope,Books) {
   $scope.books = Books.query();
     // https://groups.google.com/forum/#!msg/angular/guzTpRuwkt0/mfQkDHZ79wgJ
@@ -12,19 +7,33 @@
       alert("Changed");
     },true); */
   }  
-  function BookController($scope) {
+  function BookController($scope,$compile) {
     $scope.yea = function() {      
       $scope.book.$save();
     }
+    $scope.compile = $compile;
     /*    $scope.$watch("book",function(newValue,oldValue) {
     alert("Changed");
     },true); */
   }
-  
+  $(document).ready(function() {
+      $(document).on("click", "ul li button.details", function(){
+          var scope = angular.element($(this).parent()).scope();
+          var container_element = $("#container");
+          container_element.html("<div ng-include=\"'tpl2.html'\">{{'Angular live'}} haha</div>")
+          var clone = scope.compile(container_element.contents())(scope,function(clone) {
+          container_element.html('').append(clone);	      
+          });
+         scope.$apply();							  
+      });
+
+  });
 
   
 %div(ng-app="BookApp")
   %p Hello {{ "Angular is live" }}
+  %script{:type => "text/ng-template",:id=> "tpl2.html"}
+    Nice little {{ "Live" }} template for book: {{book.name}}
   %div(ng-controller="MainController")
     %ul
       %li(ng-repeat="book in books" ng-controller="BookController")
@@ -32,3 +41,5 @@
         %input(ng-model="book.name")
         %button(ng-click="yea()") Save
         %button.details Show details
+    %div#container
+      Initial
