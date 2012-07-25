@@ -11,10 +11,10 @@
     $scope.yea = function() {      
       $scope.book.$save();
     }
-    $scope.compile = $compile;
-    /*    $scope.$watch("book",function(newValue,oldValue) {
-    alert("Changed");
-    },true); */
+    $scope.$watch("book",function(newValue,oldValue) {
+      console.log(newValue);
+      newValue.compute_me = "Bingo";
+    },true); 
   }
   $(document).ready(function() {
       $(document).on("click", "ul li button.details", function(){
@@ -38,6 +38,9 @@
     %ul
       %li(ng-repeat="book in books" ng-controller="BookController")
         {{book.name}}
+        B
+        {{book.compute_me}}
+        A
         %input(ng-model="book.name")
         %button(ng-click="yea()") Save
         %button.details Show details

@@ -11,11 +11,11 @@
   function MainController($scope,$compile) {
    $scope.greeting = "Wrong greeting because of wrong scope";
    $scope.openDetails = function(row) {
-     // load data but this should be separate scope for each detail
      var table = $("table#my").dataTable();
+     // add details through datatables function
      table.fnOpen( row, "<div ng-include=\"'tpl2.html'\">{{'Angular live'}} haha</div>", 'details' );
      var container_element = $(".details");
-     // need to put proper scope here:                  vvvvvv
+     // scope in next line is not proper, but inside template we open new controller which changes scope
      var clone = $compile(container_element.contents())($scope,function(clone) {
        container_element.html('').append(clone);	      
      });
