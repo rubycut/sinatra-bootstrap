@@ -8,7 +8,8 @@
     },true); */
   }  
   function BookController($scope,$compile) {
-    $scope.yea = function() {      
+    $scope.save = function() { 
+      $scope.books.push(angular.copy($scope.book));      
       $scope.book.$save();
     }
     $scope.compile = $compile;
@@ -43,7 +44,7 @@
         {{book.compute_me}}
         A
         %input(ng-model="book.name")
-        %button(ng-click="yea()") Save
+        %button(ng-click="save()") Save
         %button.details Show details
     %div#container
       Initial
