@@ -11,6 +11,7 @@
     $scope.yea = function() {      
       $scope.book.$save();
     }
+    $scope.compile = $compile;
     $scope.$watch("book",function(newValue,oldValue) {
       console.log(newValue);
       newValue.compute_me = "Bingo";
@@ -20,7 +21,7 @@
       $(document).on("click", "ul li button.details", function(){
           var scope = angular.element($(this).parent()).scope();
           var container_element = $("#container");
-          container_element.html("<div ng-include=\"'tpl2.html'\">{{'Angular live'}} haha</div>")
+          container_element.html("<div ng-include=\"'tpl2.html'\">{{'Angular live'}} initial text which should disappear</div>")
           var clone = scope.compile(container_element.contents())(scope,function(clone) {
           container_element.html('').append(clone);	      
           });
